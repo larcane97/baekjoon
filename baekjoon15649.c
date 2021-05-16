@@ -30,8 +30,6 @@ void f(int* arr, int n, int m) {
 	}
 }
 
-
-
 int main() {
 	int n, m, i, j;
 	scanf("%d %d", &n, &m);

@@ -35,5 +35,9 @@ int main() {
 	for (i = 0; i < n; i++)
 		check[i] = true;
 	f(check, ans, 0, n, m,0);
+	free(check);
+	free(ans);
+
+	return 0;
 
 }
