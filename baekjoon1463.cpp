@@ -20,7 +20,6 @@ int solve(int num,int calc) {
 	return ret =min(tmp, 1+solve(num - 1, calc + 1));
 }
 
-
 int main() {
 	cin >> n;
 	cout << solve(n, 0) << endl;
