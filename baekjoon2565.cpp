@@ -1,57 +1,55 @@
 #include <iostream>
-#include <cstring>
 #include <vector>
 #include <algorithm>
 
 using namespace std;
 
-int A[501] = {0};
-int B[501] = {0};
-int n;
-vector<pair<int, int>> crossNum;
+vector<pair<int, int>>lines;
 
-int countCross() {
-	int count = 0;
-	for (int i = 1; i <= n; i++) {
-		int cur_count = 0;;
-		int cur =A[i];
-		for (int j = cur - 1; j > 0; j--)
-			if (B[j] && B[j] > i) cur_count++;
-		crossNum.push_back(make_pair(cur_count, i));
-		count += cur_count;
+vector<pair<int,int>> countCross() {
+	int n = lines.size();
+	int totalCount = 0;
+	vector<pair<int, int>>crossNum;
+	for (int i = 0; i < n ; i++) {
+		int count = 0;
+		for (int j = 0; j < n; j++)
+			if ((lines[i].first < lines[j].first && lines[i].second > lines[j].second)
+				|| (lines[i].first > lines[j].first && lines[i].second < lines[j].second))
+				count++;
+		totalCount += count;
+		crossNum.push_back(make_pair(count, i));
 	}
-	
+
+	if (totalCount > 0) {
+		sort(crossNum.begin(), crossNum.end(), greater<pair<int, int>>());
+		return crossNum;
+	}
+	else return vector<pair<int, int>>();
+}
+
+
+int solve() {
+	int count = 0;
+	while (true) {
+		vector<pair<int, int>>crossNum = countCross();
+		if (crossNum.empty()) break;
+		count++;
+		lines[crossNum[0].second] = make_pair(0, 0);
+	}
 	return count;
 }
 
-int solve() {
-	int num = 0;
-	int count = countCross();
-	if (count == 0) return num;
-
-	sort(crossNum.begin(), crossNum.end(), greater<pair<int,int>>());
-	for (int i = 0; i < crossNum.size(); i++) {
-		B[A[crossNum[i].second]] = 0;
-		A[crossNum[i].second] = 0;
-		num++;
-		count = countCross();
-		if (count == 0) break;
-	}
-	return num;
-}
-
-
-
 
 int main() {
+	int n;
 	cin >> n;
-	for (int i = 1; i <= n; i++) {
+	for (int i = 0; i < n; i++) {
 		int a, b;
 		cin >> a >> b;
-		A[a] = b, B[b] = a;
+		lines.push_back(make_pair(a, b));
 	}
 	cout << solve() << endl;
 
+
+
 }
-
-
