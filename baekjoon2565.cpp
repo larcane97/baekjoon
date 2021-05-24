@@ -1,55 +1,49 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <cstring>
 
 using namespace std;
 
 vector<pair<int, int>>lines;
 
-vector<pair<int,int>> countCross() {
-	int n = lines.size();
-	int totalCount = 0;
-	vector<pair<int, int>>crossNum;
-	for (int i = 0; i < n ; i++) {
-		int count = 0;
-		for (int j = 0; j < n; j++)
-			if ((lines[i].first < lines[j].first && lines[i].second > lines[j].second)
-				|| (lines[i].first > lines[j].first && lines[i].second < lines[j].second))
-				count++;
-		totalCount += count;
-		crossNum.push_back(make_pair(count, i));
-	}
+int mem[101];
+int n;
+// 현재 위치에서 최대 LIS
+int LIS(int cur) {
+	int& ret = mem[cur];
+	if (ret != -1)return ret;
+	if (cur == n - 1) return ret = 1;
 
-	if (totalCount > 0) {
-		sort(crossNum.begin(), crossNum.end(), greater<pair<int, int>>());
-		return crossNum;
+	ret = 1;
+	for (int next = cur + 1; next < n; next++) {
+		if (lines[cur].second < lines[next].second)
+			ret = max(ret, LIS(next) + 1);
 	}
-	else return vector<pair<int, int>>();
+	return ret;
 }
 
 
 int solve() {
-	int count = 0;
-	while (true) {
-		vector<pair<int, int>>crossNum = countCross();
-		if (crossNum.empty()) break;
-		count++;
-		lines[crossNum[0].second] = make_pair(0, 0);
-	}
-	return count;
+	sort(lines.begin(), lines.end());
+	int lis = -1;
+	memset(mem, -1, sizeof(mem));
+	for (int i = 0; i < n; i++)
+		lis = max(lis, LIS(i));
+	return n - lis;
 }
 
-
-int main() {
-	int n;
+void input() {
 	cin >> n;
 	for (int i = 0; i < n; i++) {
 		int a, b;
 		cin >> a >> b;
 		lines.push_back(make_pair(a, b));
 	}
+}
+
+
+int main() {
+	input();
 	cout << solve() << endl;
-
-
-
 }
