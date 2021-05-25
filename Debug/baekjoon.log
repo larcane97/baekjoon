@@ -1,2 +1,4 @@
-﻿  baekjoon12865.cpp
+﻿  baekjoon2667.cpp
+C:\Users\moon\source\repos\baekjoon\baekjoon\baekjoon2667.cpp(24,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\moon\source\repos\baekjoon\baekjoon\baekjoon2667.cpp(50,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   baekjoon.vcxproj -> C:\Users\moon\source\repos\baekjoon\Debug\baekjoon.exe
