@@ -18,22 +18,26 @@ vector<int> string2arr(string s){
 	int digit = 1;
 	int num = 0;
 	bool minus = false;
-	for (int i = 0; i < s.size(); i++) {
-		if (s[i] == '-' || s[i] == '+') {
+	int i = 0;
+	while (i<s.size()) {
+		if (s[i] == '-' || s[i] == '+' || i==0) {
+			if (s[i] == '-') minus = true;
+			else {
+				minus = false;
+				if (i == 0) i--;
+			}
+			while (true) {
+				i++;
+				if (i >= s.size() || s[i] == '-' || s[i] == '+') break;
+				num = num * 10 + (s[i] - '0');
+			}
 			if (minus) num *= -1;
 			arr.push_back(num);
-			digit = 1;
 			num = 0;
-			if (s[i] == '-') minus = true;
-			else minus = false;
 		}
-		else {
-			if (s[i] == '0' && digit == 1)continue;
-			num = (num*digit) + (s[i] - '0');
-			digit *= 10;
-		}
+
 	}
-	arr.push_back(num);
+
 	return arr;
 }
 
@@ -43,7 +47,7 @@ int solve(vector<int>arr) {
 	// 마이너스가 나올 경우, 다음 마이너스가 나오기 전까지 계속 빼기
 	int i = 0;
 	while(i<arr.size()){
-		if (arr[i] < 0) {
+		if (arr[i] < 0 && i!=0) {
 			int tmp = -arr[i];
 			while (true) {
 				i++;
@@ -66,6 +70,12 @@ int solve(vector<int>arr) {
 int main() {
 	string s = input();
 	vector<int> arr = string2arr(s);
+
+	cout << "string to arr result :" << endl;
+	for (int i = 0; i < arr.size(); i++)
+		cout << arr[i] << endl;
+
+	cout << "\n" << "answer : ";
 	cout << solve(arr) << endl;
 
 }
