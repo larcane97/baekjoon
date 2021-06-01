@@ -1,35 +1,36 @@
 #include <stack>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 
-string solve(char s[]) {
+string solve(string s) {
 	stack<char> st;
-	int i = 0;
-	while(s[i] !='\0'){
-		if (s[i] == '(' || s[i] == '[')
-			st.push(s[i]);
-		else if (s[i] == ')') {
-			if (st.empty() || st.top() != '(') return "NO";
+	
+	for (string::iterator it = s.begin(); it != s.end(); it++) {
+		if ( *it == '(' || *it == '[')
+			st.push(*it);
+		else if (*it == ')') {
+			if (st.empty() || st.top() != '(') return "no";
 			st.pop();
 		}
-		else if(s[i] == ']'){
-			if (st.empty() || st.top() != '[') return "NO";
+		else if (*it == ']') {
+			if (st.empty() || st.top() != '[') return "no";
 			st.pop();
 		}
-		i++;
+
 	}
-	return st.empty() ? "YES" : "NO";
+	return st.empty() ? "yes" : "no";
 }
 
 
 
 int main() {
 	while (true) {
-		char ch[102];
-		cin.getline(ch, 102, '.');
-		if (ch[0] == '\0') break;
+		string ch;
+		getline(cin, ch);
+		if (ch.size()==1 && ch[0]=='.') break;
 		cout << solve(ch) << endl;
 	}
 }
