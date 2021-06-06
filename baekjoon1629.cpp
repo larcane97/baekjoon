@@ -3,18 +3,20 @@ using namespace std;
 
 
 long long mul(long long a, long long b, long long c) {
-	if (b == 1) return a % c;
+	if (b == 0) return 1;
+	long long ret = mul(a, b / 2, c);
+	ret = (ret * ret) % c;
 	if (b % 2 == 0)
-		return (mul(a, b / 2, c) * mul(a, b / 2, c)) % c;
+		return ret;
 	else
-		return (mul(a, b / 2, c) * mul(a, b / 2, c) * mul(a, 1, c)) % c;
+		return (ret * a) % c;
 }
 
 
 void solve() {
 	long long a, b, c;
 	cin >> a >> b >> c;
-	cout << mul(a, b, c) % c << "\n";
+	cout << mul(a, b, c) << "\n";
 	return;
 }
 
