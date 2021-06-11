@@ -73,8 +73,49 @@ void solve() {
 	}
 }
 
+
+// By divide and conquer
+
+ll divide_conquer(int start, int end) {
+	if (start == end) return arr[start];
+	int mid = (start + end) / 2;
+	// ¿ÞÂÊ ¿À¸¥ÂÊÀÇ ÃÖ´ñ°ª
+	ll ret = max(divide_conquer(start, mid), divide_conquer(mid + 1, end));
+	// Áß¾ÓÀÇ ÃÖ´ñ°ª
+	int left = mid, right = mid + 1;
+	int height = min(arr[left], arr[right]);
+	ret = max(ret, (ll)height * 2);
+	while (left > start || right < end) {
+		if (right < end && (left == start || arr[left - 1] <= arr[right + 1])) {
+			right++;
+			height = min(height, arr[right]);
+			ret = max(ret, (ll)height * (ll)(right - left + 1));
+		}
+		else {
+			left--;
+			height = min(height, arr[left]);
+			ret = max(ret, (ll)height * (ll)(right - left + 1));
+		}
+	}
+
+	return ret;
+}
+
+void solve_by_divide_conquer() {
+	while (true) {
+		int n;
+		scanf("%d", &n);
+		if (n == 0) break;
+		for (int i = 0; i < n; i++)
+			scanf("%d", &arr[i]);
+		printf("%lld\n", divide_conquer(0, n - 1));
+	}
+
+}
+
+
 int main() {
-	solve();
+	solve_by_divide_conquer();
 }
 
 
